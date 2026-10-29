@@ -63,6 +63,15 @@ Your trained model must expose `predict(conditions) -> ndarray (n_runs,
 evaluates it. See `solution/submission.py` for a working baseline (POD +
 Gaussian process).
 
+## The compute
+
+Each submission runs on its own AWS g4dn.2xlarge machine: one NVIDIA T4 GPU
+(16 GB), 8 vCPUs and 32 GB of RAM, in the competition's Docker image
+(`tommoral/onera-crm-compet:v1`, CUDA 12.6). Training and evaluation
+together must fit in **1 hour**, or the submission fails. The three Datacamp
+challenges share these machines, so a submission may wait in the queue at
+busy times.
+
 ## Run it locally, same code as the server
 
 ```bash
