@@ -1,0 +1,23 @@
+# Phase config — a native `benchopt run --config` file plus one competition
+# key (`scoring`) read by the scoring program and stripped by ingestion.
+dataset:
+  - ONERA-CRM
+seed: 42
+no_timeout: true
+scoring:
+  columns:
+    rmae: objective_rmae_public
+    rmae_worst: objective_rmae_worst_public
+    r2: objective_r2_public
+    shock_rmae: objective_shock_rmae_public
+    shock_rmae_worst: objective_shock_rmae_worst_public
+    slice_rmae: objective_slice_rmae_public
+    rmae_private: objective_rmae_private
+    rmae_worst_private: objective_rmae_worst_private
+    r2_private: objective_r2_private
+    shock_rmae_private: objective_shock_rmae_private
+    shock_rmae_worst_private: objective_shock_rmae_worst_private
+    slice_rmae_private: objective_slice_rmae_private
+    bias: objective_bias_public
+    bias_private: objective_bias_private
+    bias_train: objective_bias_train
