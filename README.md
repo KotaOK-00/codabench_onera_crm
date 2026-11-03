@@ -26,8 +26,18 @@ pip install -r requirements.txt
 benchopt run benchmark -d Simulated -s solution/submission.py -s KNN
 ```
 
-Real data: `BENCHOPT_DATA_HOME=<data> benchopt prepare benchmark -d ONERA-CRM`
-downloads the training runs from Zenodo into `<data>/onera_crm_raw/` and
-prepares them.
+## Get the data
 
-Build the Codabench bundle with `python tools/create_bundle.py`.
+One command downloads all the public data from Zenodo, the 288 training
+runs (about 250 MB), into `<data>/onera_crm_raw/` and prepares them:
+
+```bash
+benchopt prepare benchmark -d ONERA-CRM
+```
+
+`<data>` is `benchmark/data/`, or `$BENCHOPT_DATA_HOME`. The test runs stay
+on the platform.
+
+## Build the Codabench bundle
+
+Run `python tools/create_bundle.py`.
