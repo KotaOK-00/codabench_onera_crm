@@ -36,6 +36,8 @@ same side.
 - **Private / final ranking** (hidden): other held-out Mach lines, including
   Mach numbers outside the training range. Extrapolating to unseen flow
   regimes is the challenge. Do not overfit the public columns.
+- **Validation** (local only): three training lines you hold out yourself,
+  Mach 0.50, 0.88 and 0.93, see below. Select your models on it.
 
 ## What you submit
 
@@ -87,12 +89,21 @@ names. The test runs are not public: they stay on the platform.
 
 ## Run it locally, same code as the server
 
+The test runs are not public, so a local run on `ONERA-CRM` scores no test
+set. `validation=True` holds out three training lines the way the test sets
+hold out theirs: Mach 0.50 between two subsonic lines, 0.88 between two
+transonic lines, and 0.93 above the remaining range. The run then reports
+the leaderboard metrics on them (`objective_rmae_val`,
+`objective_rmae_worst_val`, `objective_r2_val`...):
+
 ```bash
-benchopt run benchmark -d ONERA-CRM -s solution/submission.py
+benchopt run benchmark -d "ONERA-CRM[validation=True]" -s solution/submission.py
 ```
 
-The number you get locally on the public split is the number the leaderboard
-shows. The benchmark you run *is* the benchmark the server runs.
+Select your models on this validation score, and use the public column only
+to check it. The sample submission gets 6.2% there, and 5.8% on the public
+lines. The platform runs `ONERA-CRM`, which trains on all 288 training runs.
+The benchmark you run *is* the benchmark the server runs.
 
 ## Ideas to improve the baseline
 

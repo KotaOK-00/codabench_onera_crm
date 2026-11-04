@@ -36,7 +36,12 @@ benchopt prepare benchmark -d ONERA-CRM
 ```
 
 `<data>` is `benchmark/data/`, or `$BENCHOPT_DATA_HOME`. The test runs stay
-on the platform.
+on the platform. To score a model locally, hold out three training Mach
+lines (0.50, 0.88, 0.93) as a validation set:
+
+```bash
+benchopt run benchmark -d "ONERA-CRM[validation=True]" -s solution/submission.py
+```
 
 ## Build the Codabench bundle
 

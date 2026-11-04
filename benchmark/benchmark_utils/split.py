@@ -18,6 +18,11 @@ MACH_SPLIT = {
     "public": [0.75, 0.80, 0.82, 0.84, (0.96, 1.0), (0.96, 4.0)],
 }
 
+# Training lines held out by ``ONERA-CRM[validation=True]``, as the private
+# lines are: subsonic between two lines, transonic between two lines, and
+# above the remaining range.
+VALIDATION_MACHS = [0.50, 0.88, 0.93]
+
 
 def split_machs():
     """Every Mach number listed in the split."""

@@ -29,6 +29,12 @@ read-only)::
                              private runs (the worker)
     mask.npy                 optional (n_points,) point mask of the signed
                              bias metric; uniform when absent
+
+The public and private runs are only staged on the platform. Locally,
+``validation=True`` holds out the training lines ``VALIDATION_MACHS`` as a
+``val`` test set, scored with the leaderboard metrics::
+
+    benchopt run benchmark -d "ONERA-CRM[validation=True]"
 """
 
 import json
@@ -41,7 +47,7 @@ from benchopt import BaseDataset
 from benchopt.config import get_data_path
 
 from benchmark_utils.download import download_zenodo
-from benchmark_utils.split import assign_split
+from benchmark_utils.split import VALIDATION_MACHS, assign_split
 
 # Public record: train zip, read with the token of its share link while it
 # is a draft. Restricted record: public and private test zips.
@@ -59,6 +65,8 @@ TOKEN_ENV = "ONERA_DATA_TOKEN"
 class Dataset(BaseDataset):
 
     name = "ONERA-CRM"
+
+    parameters = {"validation": [False]}
 
     def prepare(self):
         raw = get_data_path("onera_crm_raw")
@@ -115,6 +123,11 @@ class Dataset(BaseDataset):
             if (root / name).exists()
         }
         conditions, fields = test_sets.pop("train")
+        if self.validation:
+            val = np.isclose(conditions[:, :1], VALIDATION_MACHS,
+                             atol=1e-6).any(axis=1)
+            test_sets["val"] = conditions[val], fields[val]
+            conditions, fields = conditions[~val], fields[~val]
         mask = root / "mask.npy"
         return dict(
             conditions=conditions,
